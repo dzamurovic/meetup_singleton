@@ -12,4 +12,6 @@ public class Singleton06 {
         return INSTANCE;
     }
 
+    // What about serialization/deserialization?
+
 }
