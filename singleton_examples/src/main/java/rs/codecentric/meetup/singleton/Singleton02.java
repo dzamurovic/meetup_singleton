@@ -1,27 +1,25 @@
-package meetup;
+package rs.codecentric.meetup.singleton;
 
 import org.apache.log4j.Logger;
 
-public class Singleton04 {
+public class Singleton02 {
 
-    private static Singleton04 instance = null;
+    private static Singleton02 instance = null;
 
     private static boolean isFirstThread = true;
     private static Logger logger = Logger.getRootLogger();
 
-    private Singleton04() {
+    private Singleton02() {
         // Do nothing.
     }
 
-    // Synchronized, performance optimization, not thread safe.
-    public static Singleton04 getInstance() {
+    // Not synchronized, not thread safe.
+    public static Singleton02 getInstance() {
         if (instance == null) {
-            synchronized (Singleton04.class) {
-                simulateMultiThreadEnvironment();
-                instance = new Singleton04();
-                logger.info("Creating singleton...");
-            }
+            simulateMultiThreadEnvironment();
+            instance = new Singleton02();
         }
+        logger.info("Creating singleton...");
         return instance;
     }
 
@@ -32,7 +30,7 @@ public class Singleton04 {
 
                 // Give some time to the second thread to do its work.
                 logger.info("Sleeping...");
-                Thread.sleep(500);
+                Thread.sleep(100);
             }
         } catch (InterruptedException e) {
             logger.warn("Sleep interrupted!");

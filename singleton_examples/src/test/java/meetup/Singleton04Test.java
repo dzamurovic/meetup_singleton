@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import rs.codecentric.meetup.singleton.Singleton04;
+
 public class Singleton04Test {
 
     private static Singleton04 instance = null;

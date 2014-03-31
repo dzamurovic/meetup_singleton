@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import rs.codecentric.meetup.singleton.Singleton01;
+
 public class Singleton01Test {
 
     @Test
