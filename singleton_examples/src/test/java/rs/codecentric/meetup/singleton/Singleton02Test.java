@@ -1,14 +1,14 @@
-package meetup;
+package rs.codecentric.meetup.singleton;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import rs.codecentric.meetup.singleton.Singleton03;
+import rs.codecentric.meetup.singleton.Singleton02;
 
-public class Singleton03Test {
+public class Singleton02Test {
 
-    private static Singleton03 instance = null;
+    private static Singleton02 instance = null;
 
     private volatile AssertionError error = null;
 
@@ -17,10 +17,10 @@ public class Singleton03Test {
         @Override
         public void run() {
             // Get a reference...
-            Singleton03 s = Singleton03.getInstance();
+            Singleton02 s = Singleton02.getInstance();
 
             // ... and protect it from multi-threaded access.
-            synchronized (Singleton03Test.class) {
+            synchronized (Singleton02Test.class) {
                 if (instance == null) {
                     instance = s;
                 }

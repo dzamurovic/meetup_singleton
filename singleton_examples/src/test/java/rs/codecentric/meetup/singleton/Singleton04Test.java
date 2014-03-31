@@ -1,4 +1,4 @@
-package meetup;
+package rs.codecentric.meetup.singleton;
 
 import static org.junit.Assert.*;
 
