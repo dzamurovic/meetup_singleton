@@ -19,7 +19,7 @@ public class ClassScannerTest {
 
     @Before
     public void setUp() {
-        classScanner = new ClassScanner();
+        classScanner = ClassScanner.getInstace();
     }
 
     @Test
