@@ -27,7 +27,7 @@ public class ClassScannerTest {
 
     @Test
     public void testGetAllFields() {
-        Assert.assertEquals(0, classScanner.getAllFields(ClassToExtend.class).size());
+        Assert.assertEquals(0, classScanner.getAllFields(AnInterface.class).size());
 
         Assert.assertEquals(1, classScanner.getAllFields(ClassScanner.class).size());
 

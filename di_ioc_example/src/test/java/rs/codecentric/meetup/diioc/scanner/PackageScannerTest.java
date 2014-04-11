@@ -24,7 +24,7 @@ public class PackageScannerTest {
     @Test
     public void testGetClasses() throws Exception {
         Assert.assertEquals(0, packageScanner.getClasses("asd").size());
-        Assert.assertEquals(3, packageScanner.getClasses("testdata").size());
+        Assert.assertEquals(4, packageScanner.getClasses("testdata").size());
     }
 
 }
