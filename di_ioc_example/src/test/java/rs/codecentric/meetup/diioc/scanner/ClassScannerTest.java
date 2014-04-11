@@ -5,12 +5,15 @@ import static org.junit.Assert.*;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import rs.codecentric.meetup.diioc.annotations.Component;
 import rs.codecentric.meetup.diioc.annotations.Inject;
+import testdata.AnInterface;
 import testdata.ChildClass;
+import testdata.ClassToExtend;
 import testdata.ParentClass;
 
 public class ClassScannerTest {
@@ -20,6 +23,17 @@ public class ClassScannerTest {
     @Before
     public void setUp() {
         classScanner = ClassScanner.getInstace();
+    }
+
+    @Test
+    public void testGetAllFields() {
+        Assert.assertEquals(0, classScanner.getAllFields(ClassToExtend.class).size());
+
+        Assert.assertEquals(1, classScanner.getAllFields(ClassScanner.class).size());
+
+        Assert.assertEquals(2, classScanner.getAllFields(ChildClass.class).size());
+
+        Assert.assertEquals(3, classScanner.getAllFields(ParentClass.class).size());
     }
 
     @Test
@@ -34,4 +48,10 @@ public class ClassScannerTest {
         assertEquals(3, fields.size());
     }
 
+    @Test
+    public void testGetDefiningClass() {
+        Assert.assertEquals(ParentClass.class, classScanner.getDefiningClass((ParentClass.class)));
+
+        Assert.assertEquals(AnInterface.class, classScanner.getDefiningClass((ClassToExtend.class)));
+    }
 }

@@ -1,78 +1,51 @@
 package rs.codecentric.meetup.diioc;
 
-import java.lang.reflect.Field;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import rs.codecentric.meetup.diioc.annotations.Component;
-import rs.codecentric.meetup.diioc.annotations.Inject;
-import rs.codecentric.meetup.diioc.scanner.ClassScanner;
-import rs.codecentric.meetup.diioc.scanner.PackageScanner;
+import org.apache.log4j.Logger;
 
 public class Main {
 
-    @SuppressWarnings("rawtypes")
+    private static Logger logger = Logger.getLogger(DependencyInjectionManager.class);
+
     public static void main(String args[]) throws Exception {
-        Map<Class, Object> graph = new Hashtable<Class, Object>();
+        final DependencyInjectionManager diManager = DependencyInjectionManager.getInstance();
 
-        PackageScanner packageScanner = PackageScanner.getInstance();
-        List<Class> components = packageScanner.findAnnotatedClasses("rs.codecentric.meetup.diioc.example", Component.class);
+        Thread t1 = new DependencyInjectionThread("DI-thread-0", diManager);
+        Thread t2 = new DependencyInjectionThread("DI-thread-1", diManager);
+        Thread t3 = new DependencyInjectionThread("DI-thread-2", diManager);
+        Thread t4 = new DependencyInjectionThread("DI-thread-3", diManager);
 
-        // 1. find classes annotated with @Component
-        // 2. for each "component"
-        // 2a. if it is not instantiated, instantiate it
-        // 2b. put it in the graph
-        // 3. build component dependency structure
-        // 3a. for each @Inject, check if graph contains instance of annotated type
-        // 3b. set its value to the component property
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
 
-        for (Class component : components) {
-            Class definingClass = getDefiningClass(component);
-            if (!graph.containsKey(definingClass)) {
-                graph.put(definingClass, Class.forName(component.getName()).newInstance());
-            }
-        }
+        t1.join();
+        t2.join();
+        t3.join();
+        t4.join();
 
-        ClassScanner classScanner = ClassScanner.getInstace();
-        for (Iterator<Class> classIterator = graph.keySet().iterator(); classIterator.hasNext();) {
-            Class definingClass = classIterator.next();
-            Object object = graph.get(definingClass);
-            for (Field f : classScanner.findAnnotatedFields(object.getClass(), Inject.class)) {
-                if (!graph.containsKey(f.getType())) {
-                    throw new RuntimeException("Dependency cannot be satisfied! No instance of " + f.getType() + " found to satisfy dependency " + f);
-                }
-                boolean accessModified = false;
-                if (!f.isAccessible()) {
-                    f.setAccessible(true);
-                    accessModified = true;
-                }
-                f.set(object, graph.get(f.getType()));
-                if (accessModified) {
-                    f.setAccessible(false);
-                }
-            }
-        }
-
-        for (Iterator<Class> classIterator = graph.keySet().iterator(); classIterator.hasNext();) {
-            Class definingClass = classIterator.next();
-            Object object = graph.get(definingClass);
-            System.out.println(classScanner.getStructureDescription(object));
-        }
-
+        logger.info("A couple of empty lines to improve readability...\n\n\n");
+        diManager.describeDependencyGraph();
     }
 
-    /**
-     * Check if given class implements an interface. If it does, return interface class as defining class, otherwise return this class.
-     * 
-     * @param cls
-     * @return
-     */
-    @SuppressWarnings("rawtypes")
-    private static Class getDefiningClass(Class cls) {
-        Class[] interfaces = cls.getInterfaces();
-        return interfaces.length > 0 ? interfaces[0] : cls;
+    static class DependencyInjectionThread extends Thread {
+
+        private DependencyInjectionManager diManager;
+
+        public DependencyInjectionThread(String name, DependencyInjectionManager diManager) {
+            super(name);
+            this.diManager = diManager;
+        }
+
+        @Override
+        public void run() {
+            try {
+                diManager.run();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
 }

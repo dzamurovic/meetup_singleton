@@ -1,6 +1,6 @@
 package testdata;
 
-public class ClassToExtend {
+public class ClassToExtend implements AnInterface {
 
     private long someLargeNumber;
 
