@@ -52,10 +52,6 @@ public class DependencyInjectionManager {
         // Find classes annotated with @Component.
         List<Class> components = packageScanner.findAnnotatedClasses("rs.codecentric.meetup.diioc.example", Component.class);
 
-        // 3. build component dependency structure
-        // 3a. for each @Inject, check if graph contains instance of annotated type
-        // 3b. set its value to the component property
-
         // For each component...
         for (Class component : components) {
             Class definingClass = classScanner.getDefiningClass(component);
