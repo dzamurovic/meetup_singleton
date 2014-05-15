@@ -16,8 +16,8 @@ public class Singleton06Hack implements Serializable {
         return INSTANCE;
     }
 
-    protected Object readResolve() {
-        return getInstance();
-    }
+    // protected Object readResolve() {
+    // return getInstance();
+    // }
 
 }
