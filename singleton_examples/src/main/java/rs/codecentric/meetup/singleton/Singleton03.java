@@ -2,6 +2,9 @@ package rs.codecentric.meetup.singleton;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Synchronized, thread safe.
+ */
 public class Singleton03 {
 
     private static Singleton03 instance = null;
@@ -13,7 +16,6 @@ public class Singleton03 {
         // Do nothing.
     }
 
-    // Synchronized, thread safe.
     public synchronized static Singleton03 getInstance() {
         if (instance == null) {
             simulateMultiThreadEnvironment();

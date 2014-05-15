@@ -4,7 +4,7 @@ package rs.codecentric.meetup.singleton;
  * "Classic" singleton.
  */
 public class Singleton01 {
-    // TODO Make this class final!
+    // TODO Make this class final?
 
     private static Singleton01 instance = null;
 
